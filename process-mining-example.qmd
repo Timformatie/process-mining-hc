@@ -1,0 +1,37 @@
+---
+title: "Process Mining"
+format: html
+editor: visual
+---
+
+## Process Mining
+
+blabla
+
+## Loading Library
+
+```{r}
+library(bupaR)
+library(xesreadR)
+library(eventdataR)
+library(edeaR)
+library(processmapR)
+library(processmonitR)
+```
+
+## Explore data
+
+```{r}
+#| echo: false
+hospital %>% head()
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+```{r}
+nursing_log <- hospital %>% filter(group == "Nursing ward")
+```
+
+```{r}
+process_map(nursing_log)
+```
