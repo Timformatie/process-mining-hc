@@ -4,11 +4,11 @@ format: html
 editor: visual
 ---
 
-## Process Mining
+# Process mining
 
 blabla
 
-## Loading Library
+## Loading Libraries
 
 ```{r}
 library(bupaR)
@@ -19,19 +19,106 @@ library(processmapR)
 library(processmonitR)
 ```
 
-## Explore data
+### Create an event log
+
+We maken gebruik van een synthetische dataset waarin de trajecten van patiënten die op de spoedeisende hulp belanden, zijn geregistreerd. Met behulp van deze dataset illustreren we de mogelijkheden van proces mining.
+
+Een typische event log bevat vaak de volgende elementen:
+
+-   Case Identifier: Dit verwijst naar het onderwerp dat de activiteiten doorloopt, in ons geval de patiënt.
+
+-   Activity Identifier: Dit verwijst naar de activiteiten in het proces, zoals Registratie, Triage en Assessment, bloedtest, enzovoort.
+
+-   activity instance identifier: Een unieke identifier voor elke keer dat de activiteit wordt uitgevoerd.
+
+-   Life Cycle Identifier: Dit geeft de status van de activiteit aan, in dit geval 'started' of 'completed'.
+
+-   Timestamp: De tijd van een activiteit. Er zijn tijden voor 'started' en 'completed', zodat de duur van de activiteit kan worden berekend.
+
+-   ResourceID: Dit geeft aan wie de activiteit heeft uitgevoerd of waar deze heeft plaatsgevonden.
+
+Wanneer je een dataset hebt waarop je process mining wilt toepassen, moet je eerst de boven genoemde elementen identificeren.
+
+In de patients dataset
+
+-   patient = case_id
+
+-   employee = resource_id
+
+-   handling = activity_id
+
+-   handling_id = activity_instance_id
+
+-   timestamp = time
+
+-   registration_type = lifecycle transition
+
+Met deze informatie kun je een eventlog creeren. In deze link staat beschreven hoe:
+
+<https://bupaverse.github.io/docs/create_logs.html>
+
+Het event log ziet er alsvolgt uit:
 
 ```{r}
 #| echo: false
-hospital %>% head()
+patients %>% head()
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+## Exploring the eventlog
 
-```{r}
-nursing_log <- hospital %>% filter(group == "Nursing ward")
-```
+### Understand the mapping of columns to eventlog items
 
 ```{r}
-process_map(nursing_log)
+patients %>% mapping
 ```
+
+### Get information about the size of the dataset
+
+```{r}
+patients %>% n_activities
+patients %>% n_activity_instances
+patients %>% n_cases
+patients %>% n_events
+patients %>% n_traces
+patients %>% n_resources
+```
+
+### Get information about the content of the entities
+
+```{r}
+patients %>% activities()
+```
+
+## Process Mining
+
+### Process discovery
+
+In process discovery we simply analyse the processes based on the timestamps in the data.
+
+For this there are a view convenient representations:
+
+-   Process maps
+
+-   Process matrices
+
+-   Dotted charts
+
+-   Trace Explorer
+
+-   Performance Spectrum
+
+-   Animaties
+
+#### Process maps
+
+```{r}
+patients %>% process_map(frequency("absolute"))
+```
+
+## Conformance checking
+
+rule based conformance checkin : <https://bupaverse.github.io/docs/control_flow_analysis.html>
+
+dus activiteit A moet altijd na B komen.
+
+Conformance checking: je moet ook een verwacht model kunnen invoeren?
