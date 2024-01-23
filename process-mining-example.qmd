@@ -17,6 +17,8 @@ library(eventdataR)
 library(edeaR)
 library(processmapR)
 library(processmonitR)
+library(processanimateR)
+library(processcheckR)
 ```
 
 ### Create an event log
@@ -111,11 +113,64 @@ For this there are a view convenient representations:
 
 #### Process maps
 
+frequency:
+
+-   absolute: aantal executies van activity
+
+-   absolute-case: aantal cases
+
+-   relative: proportion of all activity instances with this type
+
+-   relative-case: proportion of all cases that did this activity
+
+-   relative-antecedent: percentagedat uit deze "source komt", komt in deze flow
+
+-   relative-consequent: percentage dat in ''target" terecht komt komt uit deze flow
+
 ```{r}
-patients %>% process_map(frequency("absolute"))
+patients %>% process_map(frequency("relative-case"))
+```
+
+performance: laat zien heo lang elke stap duurt. Je kunt de gemiddelde tijd uitdrukken de min de max etc. Je kunt ook aangeven of je dit in minuten, uren of dagen wilt zien.
+
+```{r}
+patients %>% process_map(performance(FUN = mean,"hours"))
+```
+
+Advances: combineren van informatie
+
+```{r}
+patients %>% process_map(type = performance(FUN = mean) ,sec = frequency("absolute_case"))
+```
+
+Animations
+
+```{r}
+animate_process(patients)
+```
+
+#### Trace Explorer
+
+```{r}
+patients %>% trace_explorer(coverage = 1)
+```
+
+#### Process matrices
+
+```{r}
+patients %>% process_matrix(frequency("absolute_case")) %>% plot()
 ```
 
 ## Conformance checking
+
+Ie check that MRI always comes after a bloodtest:
+
+```{r}
+patients %>% 
+    check_rule(succession("Blood test","MRI SCAN"), label = "r1") %>%
+    group_by(r1) %>%
+    n_cases()
+```
 
 rule based conformance checkin : <https://bupaverse.github.io/docs/control_flow_analysis.html>
 
