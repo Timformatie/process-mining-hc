@@ -128,13 +128,19 @@ frequency:
 -   relative-consequent: percentage dat in ''target" terecht komt komt uit deze flow
 
 ```{r}
+# Hoofd van ER klachten
+
+
+# business vraag: 
+# Wat is de flow van mijn processen, wat zijn de processen, worden die gevolgd.
 patients %>% process_map(frequency("relative-case"))
 ```
 
 performance: laat zien heo lang elke stap duurt. Je kunt de gemiddelde tijd uitdrukken de min de max etc. Je kunt ook aangeven of je dit in minuten, uren of dagen wilt zien.
 
 ```{r}
-hospital_billing %>% process_map(performance(FUN = mean,"hours"))
+# Best wel overzihctelijk, wat duurt er dan zo lang. waar zitten de bottle necks, 
+patients %>% process_map(performance(FUN = mean,"hours"))
 ```
 
 Advances: combineren van informatie
@@ -146,7 +152,15 @@ patients %>% process_map(type = performance(FUN = mean) ,sec = frequency("absolu
 Animations
 
 ```{r}
-animate_process(patients)
+# 
+animate_process(log, mode = "absolute", jitter = 0, legend = "color",epsilon_time = 10,
+  mapping = token_aes(color = token_scale("employee", 
+    scale = "ordinal", 
+    range = RColorBrewer::brewer.pal(7, "Paired"))),duration = 100)
+```
+
+```{r}
+head(patients_act)
 ```
 
 #### Trace Explorer
