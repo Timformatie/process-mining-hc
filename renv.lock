@@ -11,20 +11,20 @@
   "Packages": {
     "BH": {
       "Package": "BH",
-      "Version": "1.81.0-1",
+      "Version": "1.84.0-0",
       "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "68122010f01c4dcfbe58ce7112f2433d"
+      "Repository": "RSPM",
+      "Hash": "a8235afbcd6316e6e91433ea47661013"
     },
     "DiagrammeR": {
       "Package": "DiagrammeR",
-      "Version": "1.0.10",
+      "Version": "1.0.11",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "RColorBrewer",
-        "downloader",
+        "cli",
         "dplyr",
         "glue",
         "htmltools",
@@ -39,10 +39,10 @@
         "stringr",
         "tibble",
         "tidyr",
-        "viridis",
+        "viridisLite",
         "visNetwork"
       ],
-      "Hash": "f3de4a4878163a4629a528bbcc6e655d"
+      "Hash": "584c1e1cbb6f9b6c3b0f4ef0ad960966"
     },
     "MASS": {
       "Package": "MASS",
@@ -97,18 +97,18 @@
     },
     "Rcpp": {
       "Package": "Rcpp",
-      "Version": "1.0.11",
+      "Version": "1.0.12",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Requirements": [
         "methods",
         "utils"
       ],
-      "Hash": "ae6cbbe1492f4de79c45fce06f967ce8"
+      "Hash": "5ea2700d21e038ace58269ecdbeb9ec0"
     },
     "XML": {
       "Package": "XML",
-      "Version": "3.99-0.16",
+      "Version": "3.99-0.16.1",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -116,7 +116,7 @@
         "methods",
         "utils"
       ],
-      "Hash": "131e2febe15d5bbca3a37bd69e71b873"
+      "Hash": "da3098169c887914551b607c66fe2a28"
     },
     "askpass": {
       "Package": "askpass",
@@ -260,10 +260,10 @@
     },
     "commonmark": {
       "Package": "commonmark",
-      "Version": "1.9.0",
+      "Version": "1.9.1",
       "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "d691c61bff84bd63c383874d2d0c3307"
+      "Repository": "RSPM",
+      "Hash": "5d8225445acb167abf7797de48b2ee3c"
     },
     "cpp11": {
       "Package": "cpp11",
@@ -312,36 +312,25 @@
     },
     "data.table": {
       "Package": "data.table",
-      "Version": "1.14.10",
+      "Version": "1.15.0",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
         "R",
         "methods"
       ],
-      "Hash": "6ea17a32294d8ca00455825ab0cf71b9"
+      "Hash": "cfbbb4aed6e78cd45f17123a9ec9981a"
     },
     "digest": {
       "Package": "digest",
-      "Version": "0.6.33",
+      "Version": "0.6.34",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "utils"
       ],
-      "Hash": "b18a9cf3c003977b0cc49d5e76ebe48d"
-    },
-    "downloader": {
-      "Package": "downloader",
-      "Version": "0.4",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "digest",
-        "utils"
-      ],
-      "Hash": "f4f2a915e0dedbdf016a83b63477349f"
+      "Hash": "7ede2ee9ea8d3edbf1ca84c1e333ad1a"
     },
     "dplyr": {
       "Package": "dplyr",
@@ -558,20 +547,6 @@
       ],
       "Hash": "e0b3a53876554bd45879e596cdb10a52"
     },
-    "gridExtra": {
-      "Package": "gridExtra",
-      "Version": "2.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "grDevices",
-        "graphics",
-        "grid",
-        "gtable",
-        "utils"
-      ],
-      "Hash": "7d7f283939f563670a697165b2cf5560"
-    },
     "gtable": {
       "Package": "gtable",
       "Version": "0.3.4",
@@ -646,7 +621,7 @@
     },
     "httpuv": {
       "Package": "httpuv",
-      "Version": "1.6.13",
+      "Version": "1.6.14",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -657,7 +632,7 @@
         "promises",
         "utils"
       ],
-      "Hash": "d23d2879001f3d82ee9dc38a9ef53c4c"
+      "Hash": "16abeb167dbf511f8cc0552efaf05bab"
     },
     "httr": {
       "Package": "httr",
@@ -676,7 +651,7 @@
     },
     "igraph": {
       "Package": "igraph",
-      "Version": "1.6.0",
+      "Version": "2.0.1.1",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -694,7 +669,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "eef74fe28b747e52288ea9e1d3600034"
+      "Hash": "fb2999614d40fe7fd61cf569b66a2dbc"
     },
     "isoband": {
       "Package": "isoband",
@@ -940,9 +915,9 @@
     },
     "plotly": {
       "Package": "plotly",
-      "Version": "4.10.3",
+      "Version": "4.10.4",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "RColorBrewer",
@@ -968,7 +943,7 @@
         "vctrs",
         "viridisLite"
       ],
-      "Hash": "56914cc61df53f2d0283d5498680867e"
+      "Hash": "a1ac5c03ad5ad12b9d1597e00e23c3dd"
     },
     "prettyunits": {
       "Package": "prettyunits",
@@ -1126,9 +1101,9 @@
     },
     "readr": {
       "Package": "readr",
-      "Version": "2.1.4",
+      "Version": "2.1.5",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "R6",
@@ -1145,7 +1120,7 @@
         "utils",
         "vroom"
       ],
-      "Hash": "b5047343b3825f37ad9d3b5d89aa1078"
+      "Hash": "9de96463d2117f6ac49980577939dfb3"
     },
     "renv": {
       "Package": "renv",
@@ -1159,14 +1134,14 @@
     },
     "rlang": {
       "Package": "rlang",
-      "Version": "1.1.2",
+      "Version": "1.1.3",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "utils"
       ],
-      "Hash": "50a6dbdc522936ca35afc5e2082ea91b"
+      "Hash": "42548638fae05fd9a9b5f3f437fbbbe2"
     },
     "rmarkdown": {
       "Package": "rmarkdown",
@@ -1346,9 +1321,9 @@
     },
     "tidyr": {
       "Package": "tidyr",
-      "Version": "1.3.0",
+      "Version": "1.3.1",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Requirements": [
         "R",
         "cli",
@@ -1365,7 +1340,7 @@
         "utils",
         "vctrs"
       ],
-      "Hash": "e47debdc7ce599b070c8e78e8ac0cfcf"
+      "Hash": "915fb7ce036c22a6a33b5a8adb712eb1"
     },
     "tidyselect": {
       "Package": "tidyselect",
@@ -1385,14 +1360,14 @@
     },
     "timechange": {
       "Package": "timechange",
-      "Version": "0.2.0",
+      "Version": "0.3.0",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
         "R",
         "cpp11"
       ],
-      "Hash": "8548b44f79a35ba1791308b61e6012d7"
+      "Hash": "c5f3c201b931cd6474d17d8700ccb1c8"
     },
     "tinytex": {
       "Package": "tinytex",
@@ -1438,19 +1413,6 @@
         "rlang"
       ],
       "Hash": "c03fa420630029418f7e6da3667aac4a"
-    },
-    "viridis": {
-      "Package": "viridis",
-      "Version": "0.6.4",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "ggplot2",
-        "gridExtra",
-        "viridisLite"
-      ],
-      "Hash": "80cd127bc8c9d3d9f0904ead9a9102f1"
     },
     "viridisLite": {
       "Package": "viridisLite",
@@ -1508,16 +1470,15 @@
     },
     "withr": {
       "Package": "withr",
-      "Version": "2.5.2",
+      "Version": "3.0.0",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
         "R",
         "grDevices",
-        "graphics",
-        "stats"
+        "graphics"
       ],
-      "Hash": "4b25e70111b7d644322e9513f403a272"
+      "Hash": "d31b6c62c10dcf11ec530ca6b0dd5d35"
     },
     "xesreadR": {
       "Package": "xesreadR",
