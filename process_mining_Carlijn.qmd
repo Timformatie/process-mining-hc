@@ -183,6 +183,8 @@ animate_process(patients,
 
 ### 5.4 Trace Explorer
 
+Het kan ook interessant zijn om dieper in de traces (zie 4.2) te duiken. Welk pad doorlopen patiënten het meest? In dit geval is dat het pad Registration - Triage and Assessment - X-Ray - Discuss Results - Checkout.
+
 ```{r echo=FALSE}
 trace_explorer(patients, coverage = 1)
 ```
