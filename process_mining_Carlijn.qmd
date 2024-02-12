@@ -1,0 +1,213 @@
+---
+title: "Process Mining"
+format:
+  html:
+    toc: true
+editor: visual
+---
+
+![](https://i0.wp.com/mycloud.land/wp-content/uploads/2020/07/Why-Process-Mining.png?fit=2356%2C1358&ssl=1){style="display: inline;" fig-align="left" width="332"}
+
+## 1. Wat is het?
+
+Process mining is een analytische benadering waarmee organisaties inzicht kunnen krijgen in hun bedrijfsprocessen op basis van feitelijke gegevens. Het maakt gebruik van logbestanden en gegevens uit informatiesystemen om de werkelijke uitvoering van processen te visualiseren en analyseren.
+
+## 2. Waar kan het voor worden gebruikt?
+
+Het nut van process mining ligt in het identificeren van inefficiënties, bottlenecks en variaties in processen, waardoor organisaties verbeteringen kunnen aanbrengen, kosten kunnen verlagen en de operationele efficiëntie kunnen optimaliseren.Het helpt ook bij het begrijpen van complexe bedrijfsprocessen en het nemen van datagestuurde beslissingen voor procesoptimalisatie.
+
+```{r echo = FALSE, message = FALSE, warning = FALSE, }
+
+# Laden van de benodigde libraries
+
+library(bupaR)
+library(xesreadR)
+library(eventdataR)
+library(edeaR)
+library(processmapR)
+library(processmonitR)
+library(processanimateR)
+library(processcheckR)
+```
+
+## 3. De data
+
+Om process mining te kunnen toepassen, is een zogenaamde "Event Log" nodig. We maken hier gebruik van een synthetische dataset waarin de trajecten zijn geregisteerd van patiënten die op de spoedeisende hulp belanden. Met behulp van deze dataset illustreren we de mogelijkheden van proces mining. Hieronder een voorproefje van de dataset met bijbehorende relevante termen (de data zelf is te vinden onder "\# A tibble 6x7"):
+
+```{r echo = FALSE}
+head(patients)
+```
+
+Een typische Event Log bevat vaak de volgende elementen:
+
+-   Case Identifier: dit verwijst naar het onderwerp dat de activiteiten doorloopt, in ons geval de patiënt.
+
+-   Activity Identifier: dit verwijst naar de activiteiten in het proces, zoals Registratie, Triage en Assessment, Bloedtest, enzovoort.
+
+-   Activity Instance Identifier: een unieke identifier voor elke keer dat de activiteit wordt uitgevoerd.
+
+-   Life Cycle Identifier: Dit geeft de status van de activiteit aan, in dit geval 'started' of 'completed'.
+
+-   Timestamp: de begin- of eindtijd van een activiteit. Er zijn tijden voor 'started' en 'completed', zodat de duur van de activiteit kan worden berekend.
+
+-   Resource Identifier: Dit geeft aan wie de activiteit heeft uitgevoerd of waar deze heeft plaatsgevonden.
+
+## 4. De event log verkennen
+
+Wanneer je een dataset hebt waarop je process mining wilt toepassen, moeten dus eerst de bovengenoemde elementen worden geïdentificeerd in die dataset.
+
+In de patients dataset horen de volgende kolommen bij de elementen:
+
+```{r echo=FALSE}
+patients %>% mapping
+```
+
+Hier zien we bijvoorbeeld dat de kolom "patient" uit de dataset is vastgesteld als het element "Case identifier".
+
+### 4.1 Activiteiten en Resources
+
+Het is ook interessant om te verkennen hoeveel verschillende soorten activiteiten er zijn, of hoeveel verschillende resources of patienten.
+
+```{r echo=FALSE}
+
+paste("Aantal verschillende activiteiten:", n_activities(patients))
+
+data.frame("Unieke_activiteiten" = unique(patients$handling))
+
+paste("Aantal verschillende resources:", n_resources(patients))
+
+data.frame("Unieke_resources" = unique(patients$employee))
+
+paste("Aantal verschillende patienten:", n_cases(patients))
+```
+
+Een voorbeeld van een relevante vraag kan zijn: hoe vaak worden de verschillende activiteiten uitgevoerd? Welke activiteiten worden relevatief het meest uitgevoerd? Onderstaande resultaat geeft antwoord op deze vragen.
+
+```{r echo=FALSE}
+
+activities(patients)
+```
+
+We kunnen het resultaat als volgt interpreteren:
+
+-   Eerder is vastgesteld dat er 500 patienten zijn in de dataset. Al deze patienten doorlopen de activiteiten "Registration" en "Triage and Assessment".
+
+-   Het is logisch dat de patienten zich daarna opsplitsen over de activiteiten "X-Ray", "Blood test" en "MRI SCAN".
+
+-   Interessant is om te zien dat niet alle patienten de activiteiten "Discuss Results" en "Check-out" doorlopen. Als vervolg hierop kan worden onderzocht of dit misschien na een enkele specifieke activiteit is. Hier komen we later op terug.
+
+### 4.2 Traces
+
+Welke paden van activiteiten doorlopen patiënten zoal?
+
+De relevante term hiervoor is "trace". Een trace is een opeenvolging van één of meerdere activiteiten bij een specifieke case. Met andere woorden: een trace is eigenlijk een pad van activiteiten dat wordt gevolgd door een individuele patient vanaf het begin tot het einde van het proces. In dit geval zijn er 7 unieke paden van activiteiten die patienten hebben gevolgd.
+
+```{r echo=FALSE}
+
+paste("aantal verschillende traces:", n_traces(patients))
+
+traces(patients)
+```
+
+Een voorbeeld van zo'n pad is "Registration, Triage and Assessment". Dit pad komt 2 keer voor in de dataset. Van alle traces die voorkomen is 0.2% deze specifieke trace. Het komt dus niet vaak voor dat een patient enkel geregistreerd en onderzocht wordt, maar dat er geen verdere behandeling plaatsvindt.
+
+## 5. Visualisaties
+
+Bovenstaande analyses geven interessante inzichten, maar er zijn meer mogelijkheden. Zo kunnen de verschillende processen ook visueel worden weergegeven in een process map.
+
+### 5.1 Aantallen
+
+```{r echo=FALSE}
+
+# frequency:
+# 
+# absolute: aantal executies van activity
+# 
+# absolute-case: aantal cases
+# 
+# relative: proportion of all activity instances with this type
+# 
+# relative-case: proportion of all cases that did this activity
+# 
+# relative-antecedent: percentage dat uit deze "source komt", komt in deze flow
+# 
+# relative-consequent: percentage dat in ''target" terecht komt komt uit deze flow
+
+# Hoofd van ER klachten
+
+# business vraag: 
+# Wat is de flow van mijn processen, wat zijn de processen, worden die gevolgd.
+patients %>% process_map(frequency("absolute-case"))
+```
+
+Er zijn een aantal interessante inzichten uit deze visualisatie te halen:
+
+-   Verreweg de meeste patienten doorlopen een pad waarbij ze beginnen bij Registration en Triage and Assessment, daarna (1) een Blood test en MRI scan doen of (2) een X-Ray krijgen, om vervolgens bij Discuss Results en Check-out te eindigen.
+
+-   Zoals eerder vastgesteld, zijn er een aantal (5) patiënten die "Discuss Results" en "Check-out" overslaan. Deze patiënten zijn niet afkomstig uit een specifieke activiteit maar uit drie verschillende activiteiten: Triage and Assessment (2), Blood test (1) en X-Ray (2). De oorzaak van het overslaan van "Discuss Results" en "Check-out" lijkt dus niet te liggen bij één specifieke activiteit.
+
+### 5.2 Tijden
+
+Er kan ook onderzocht worden hoe lang alle activiteiten gemiddeld duren, zie het schema hieronder.
+
+```{r echo=FALSE}
+patients %>% process_map(performance(FUN = mean,"hours"))
+```
+
+In dit schema is duidelijk te zien dat het na Triage and Assessment relatief lang duurt voor patienten aan de beurt zijn bij de volgende activiteit. Mogelijk is hier nog ruimte voor verbetering.
+
+In het vorige schema met aantallen is te zien dat 2 patienten vanaf Triage and Assessment geen behandeling ondergaan. De reden hiervoor zou een lange wachttijd kunnen zijn. Maar gezien het zeer lage aantal patienten (2) lijkt het er in ieder geval niet op dat de relatief lange wachttijd ervoor zorgt dat veel patienten besluiten geen behandeling te ondergaan.
+
+De schema's met aantallen en tijden kunnen ook gecombineerd worden in één schema:
+
+```{r echo=FALSE}
+patients %>% process_map(type = performance(FUN = mean, "hours"), sec = frequency("absolute_case"))
+```
+
+### 5.3 Animatie
+
+Let op: deze lijkt niet helemaal te kloppen. Moeten we nog wat mee...
+
+```{r echo=FALSE}
+
+animate_process(patients,
+                mode = "absolute",
+                jitter = 10,
+                legend = "color",
+                epsilon_time = 10,
+                mapping = token_aes(color = token_scale("employee", 
+                                                        scale = "ordinal", 
+                                                        range = RColorBrewer::brewer.pal(7, "Paired")))
+                ,duration = 100)
+```
+
+### 5.4 Trace Explorer
+
+Het kan ook interessant zijn om dieper in de traces (zie 4.2) te duiken. Welk pad doorlopen patiënten het meest? In dit geval is dat het pad Registration - Triage and Assessment - X-Ray - Discuss Results - Checkout.
+
+```{r echo=FALSE}
+trace_explorer(patients, coverage = 1)
+```
+
+### 5.5 Process matrices
+
+```{r}
+patients %>% process_matrix(frequency("absolute_case")) %>% plot()
+```
+
+## Conformance checking
+
+Ie check that MRI always comes after a bloodtest:
+
+```{r}
+patients %>% 
+    check_rule(succession("Blood test","MRI SCAN"), label = "r1") %>%
+    group_by(r1) %>%
+    n_cases()
+```
+
+rule based conformance checkin : <https://bupaverse.github.io/docs/control_flow_analysis.html>
+
+dus activiteit A moet altijd na B komen.
+
+Conformance checking: je moet ook een verwacht model kunnen invoeren?

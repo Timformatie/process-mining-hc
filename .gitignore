@@ -6,3 +6,4 @@ process-mining-example_files/
 data/Hospital Billing - Event Log.xes
 /.quarto/
 /_site/
+.DS_Store
