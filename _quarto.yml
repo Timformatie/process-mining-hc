@@ -6,6 +6,7 @@ website:
   title: "Process Mining"
   repo-url: https://github.com/Timformatie/process-mining-hc
   page-navigation: true
+  search: false
   page-footer:
     background: light
     left: "© Timformatie, 2024."
