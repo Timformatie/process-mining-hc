@@ -1,3 +1,19 @@
 project:
   type: website
   output-dir: docs
+
+website:
+  title: "Process Mining"
+  repo-url: https://github.com/Timformatie/process-mining-hc
+  page-navigation: true
+  page-footer:
+    background: light
+    left: "© Timformatie, 2024."
+  sidebar:
+    # logo: "images/.png"
+
+    contents:
+      - href: process-mining-story.qmd
+        text: Process mining story
+      - href: process_mining_Carlijn.qmd
+        text: Process mining instructions
