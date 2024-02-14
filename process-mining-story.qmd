@@ -3,6 +3,7 @@ title: "Process Mining"
 format: html
 editor: visual
 ---
+
 Process mining is een krachtige tool die bedrijven in staat stelt diepgaand inzicht te verkrijgen in hun interne processen. Het stelt organisaties niet alleen in staat om deze processen beter te begrijpen, maar ook om eventuele knelpunten te identificeren en te optimaliseren. In dit artikel belichten we de toegevoegde waarde van process mining aan de hand van een illustratief voorbeeld: de toepassing ervan op de eerste hulp van een ziekenhuis.
 
 Bij dit voorbeeld maken we gebruik van fictieve data om de werking van process mining te demonstreren. Het is belangrijk op te merken dat zowel de verstrekte data als de casus fictief zijn en slechts een vereenvoudigde weergave van de realiteit vormen. Desalniettemin biedt deze fictieve situatie een duidelijk inzicht in de mogelijkheden die process mining kan bieden.
@@ -126,5 +127,4 @@ Process mining kan ook helpen om andere gegevens te begrijpen, bijvoorbeeld:
 -   Heeft het proces dat de patiënt doorloopt effect op de uitkomst van de behandeling?
 -   Kunnen we voorspellen wat de uitkomst van een behandeling is op basis van het proces dat de patiënt doorlopen heeft?
 
-</br></br></br></br></br>
-De gebruikte afbeeldingen zijn afkomstig uit [Storyset People Illustrations](https://storyset.com/people) en  [Storyset Work Illustrations](https://storyset.com/work). 
+</br></br></br></br></br> De gebruikte afbeeldingen zijn afkomstig uit [Storyset People Illustrations](https://storyset.com/people) en [Storyset Work Illustrations](https://storyset.com/work).
