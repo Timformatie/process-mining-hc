@@ -1,11 +1,16 @@
 ---
 title: "Process Mining"
-format: html
+format:
+  html:
+    toc: true
 editor: visual
 ---
-Process mining is een krachtige tool die bedrijven in staat stelt diepgaand inzicht te verkrijgen in hun interne processen. Het stelt organisaties niet alleen in staat om deze processen beter te begrijpen, maar ook om eventuele knelpunten te identificeren en te optimaliseren. In dit artikel belichten we de toegevoegde waarde van process mining aan de hand van een illustratief voorbeeld: de toepassing ervan op de eerste hulp van een ziekenhuis.
 
-Bij dit voorbeeld maken we gebruik van fictieve data om de werking van process mining te demonstreren. Het is belangrijk op te merken dat zowel de verstrekte data als de casus fictief zijn en slechts een vereenvoudigde weergave van de realiteit vormen. Desalniettemin biedt deze fictieve situatie een duidelijk inzicht in de mogelijkheden die process mining kan bieden.
+Process mining is een krachtige tool die bedrijven in staat stelt diepgaand inzicht te verkrijgen in hun interne processen. Het stelt organisaties niet alleen in staat om deze processen beter te begrijpen, maar ook om eventuele knelpunten te identificeren en te optimaliseren. In deze blog belichten we de toegevoegde waarde van process mining aan de hand van een illustratief voorbeeld: de toepassing ervan op de eerste hulp van een ziekenhuis.
+
+**Let op**
+In dit voorbeeld maken we gebruik van fictieve data om de werking van process mining te demonstreren. Het is belangrijk op te merken dat zowel de verstrekte data als de casus fictief zijn en slechts een vereenvoudigde weergave van de realiteit vormen. Echter, biedt deze fictieve situatie een duidelijk inzicht in de mogelijkheden die process mining kan bieden. De fictieve data die we gebruiken is [de patients eventlog van BUPAR](https://bupaverse.github.io/docs/public_logs.html). 
+
 
 ## Casus
 
@@ -35,7 +40,7 @@ library(data.table)
 patients$handling <- as.character(patients$handling)
 patients$handling[patients$handling == "MRI SCAN"] <- "Behandeling B"
 patients$handling[patients$handling == "X-Ray"] <- "Behandeling A"
-patients$handling[patients$handling == "Triage and Assessment"] <- "Triage"
+patients$handling[patients$handling == "Triage and Assessment"] <- "Eerste beoordeling"
 patients$handling[patients$handling == "Registration"] <- "Registratie"
 patients$handling[patients$handling == "Discuss Results"] <- "Resultaat bespreken"
 
@@ -49,35 +54,20 @@ Om process mining succesvol toe te passen, is het essentieel dat alle activiteit
 
 -   de start en eind tijd van de activiteiten
 -   de naam of unieke code van de activiteiten
--   de naam of unieke code van de patiënten
--   de naam of unieke code van de verantwoordelijke arts of afdeling (optioneel)
+-   de unieke code van de patiënten
+-   de unieke code van de verantwoordelijke arts of afdeling (optioneel)
 
 ### Analyse
 
 Paul wil graag weten welke stappen worden ondernomen wanneer een patiënt op de eerste hulp belandt. Is er sprake van standaardroutes die patiënten volgen, zijn er onverwachte uitzonderingen? Wat is de meest gangbare route? Om hier inzicht in te krijgen, maken we gebruik van een process map. Deze visualiseert niet alleen het aantal patiënten dat een specifieke handeling ondergaat, maar geeft tevens de opeenvolging van handelingen weer. Zo verkrijgen we helderheid over de gebruikelijke gang van zaken en eventuele variaties in het proces.
 
 ```{r, echo = FALSE}
-
-# frequency:
-# 
-# absolute: aantal executies van activity
-# 
-# absolute-case: aantal cases
-# 
-# relative: proportion of all activity instances with this type
-# 
-# relative-case: proportion of all cases that did this activity
-# 
-# relative-antecedent: percentage dat uit deze "source komt", komt in deze flow
-# 
-# relative-consequent: percentage dat in ''target" terecht komt komt uit deze flow
-
-patients %>% process_map(type= frequency("relative"))
+patients %>% process_map(type_nodes = frequency("relative_case"), type_edges = frequency("relative"))
 ```
 
 **Figuur 1. Process map met het percentage patiënten dat een bepaalde handeling ondergaat**
 
-Uit deze process map valt direct veel informatie te halen. We zien dat iedere patiënt geregistreerd wordt en triage ondergaat. Na de triage blijkt dat een patiënt ofwel een bloedtest en behandeling A krijgt, of behandeling B. Opvallend voor Paul is dat ongeveer evenveel mensen behandeling A als behandeling B krijgen, in tegenstelling tot wat hij had verwacht. Behandeling B zou alleen ingezet moeten worden wanneer strict noodzakelijk, aangezien Behandeling B aanzienlijk duurder is voor het ziekenhuis en ook meer tijd kost. Nadat Paul dit bespreekt met zijn collega's, ontdekt hij dat afdeling van Behandeling A onderbezet is, terwijl het op de afdeling van Behandeling B doorgaans rustiger is. Bovendien wordt er geklaagd over de kwaliteit van de medische apparatuur op de afdeling van Behandeling A. Door de patiënten te verdelen over de afdelingen van Behandeling A en B, probeerden zijn collega's de wachttijd al te beperken.
+Uit deze process map valt direct veel informatie te halen. We zien dat iedere patiënt geregistreerd wordt en een beoordeling ondergaat. Na de beoordeling blijkt dat een patiënt ofwel een bloedtest en behandeling A krijgt, of behandeling B. Opvallend voor Paul is dat ongeveer evenveel mensen behandeling A als behandeling B krijgen, in tegenstelling tot wat hij had verwacht. Behandeling B zou alleen ingezet moeten worden wanneer strict noodzakelijk, aangezien Behandeling B aanzienlijk duurder is voor het ziekenhuis en ook meer tijd kost. Nadat Paul dit bespreekt met zijn collega's, ontdekt hij dat afdeling van Behandeling A onderbezet is, terwijl het op de afdeling van Behandeling B doorgaans rustiger is. Door de patiënten te verdelen over de afdelingen van Behandeling A en B, probeerden zijn collega's de wachttijd al te beperken.
 
 Nu Paul een beeld heeft van de volgorde en frequentie van de activiteiten op de eerste hulp, is hij benieuwd naar welke activiteiten de meeste tijd in beslag nemen en op welke activiteiten patiënten lang moeten wachten. Om deze informatie te verkrijgen, maken we gebruik van een process map waarin de gemiddelde duur van de activiteiten wordt weergegeven.
 
@@ -88,7 +78,7 @@ patients %>% process_map(type = performance(FUN = mean,"hours"), sec = frequency
 
 **Figuur 2. Process map met de gemiddelde duur van de handelingen**
 
-![](images/Doctor-bro.svg){height="300" style="float:right;"} Paul merkt direct op dat triage de meeste tijd in beslag neemt, wat in lijn is met zijn verwachtingen. Het is immers tijdsintensief een patiënt te spreken en te beoordelen wat er aan de hand kan zijn. Wat echter opvallend is, is dat Behandeling A gemiddeld nog net iets langer duurt dan Behandeling B, terwijl normaal gesproken Behandeling B langer duurt. Zijn collega's die verantwoordelijk zijn voor Behandeling A geven aan dat de medische apparatuur verouderd is, wat resulteert in aanzienlijke vertraging.
+![](images/Doctor-bro.svg){height="300" style="float:right;"} Paul merkt direct op dat triage de meeste tijd in beslag neemt, wat in lijn is met zijn verwachtingen. Het is immers tijdsintensief een patiënt te spreken en te beoordelen wat de beste behandeling zal zijn. Wat echter opvallend is, is dat Behandeling A gemiddeld nog net iets langer duurt dan Behandeling B, terwijl normaal gesproken Behandeling B langer duurt. Zijn collega's die verantwoordelijk zijn voor Behandeling A geven aan dat de medische apparatuur verouderd is, wat resulteert in aanzienlijke vertraging.
 
 Naast de process map zijn er nog andere methoden om inzicht te krijgen in de processen, zoals met een zogenaamde trace explorer:
 
@@ -128,3 +118,5 @@ Process mining kan ook helpen om andere gegevens te begrijpen, bijvoorbeeld:
 
 </br></br></br></br></br>
 De gebruikte afbeeldingen zijn afkomstig uit [Storyset People Illustrations](https://storyset.com/people) en  [Storyset Work Illustrations](https://storyset.com/work). 
+
+
