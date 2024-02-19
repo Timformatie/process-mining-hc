@@ -16,5 +16,5 @@ website:
     contents:
       - href: process-mining-story.qmd
         text: Process mining story
-      - href: process_mining_Carlijn.qmd
+      - href: technical-story.qmd
         text: Process mining instructions

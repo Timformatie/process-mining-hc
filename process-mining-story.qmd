@@ -7,21 +7,23 @@ editor: visual
 ---
 
 
-Process mining is een krachtige tool die bedrijven in staat stelt diepgaand inzicht te verkrijgen in hun interne processen. Het stelt organisaties niet alleen in staat om deze processen beter te begrijpen, maar ook om eventuele knelpunten te identificeren en te optimaliseren. In deze blog belichten we de toegevoegde waarde van process mining aan de hand van een illustratief voorbeeld: de toepassing ervan op de eerste hulp van een ziekenhuis.
+Process mining is een krachtige tool die bedrijven in staat stelt diepgaand inzicht te verkrijgen in hun interne processen. Het stelt organisaties niet alleen in staat om deze processen beter te begrijpen, maar ook om eventuele knelpunten te identificeren en te optimaliseren. In deze blog belichten we de toegevoegde waarde van process mining aan de hand van een illustratief voorbeeld: de toepassing ervan op de eerste hulp van een ziekenhuis.</br>
 
-**Let op**
+**Let op** </br>
 In dit voorbeeld maken we gebruik van fictieve data om de werking van process mining te demonstreren. Het is belangrijk op te merken dat zowel de verstrekte data als de casus fictief zijn en slechts een vereenvoudigde weergave van de realiteit vormen. Echter, biedt deze fictieve situatie een duidelijk inzicht in de mogelijkheden die process mining kan bieden. De fictieve data die we gebruiken is [de patients eventlog van BUPAR](https://bupaverse.github.io/docs/public_logs.html). 
+</br></br>
+Dit verhaal is een illustratief voorbeeld, lees je liever de technische beschrijving en de achterliggende code? Klik dan [hier](technical-story.html). 
 
 
 ## Casus
 
 ![](images/Shrug-bro.svg){height="250" style="float:right;"}
 
-Paul is het hoofd van de Eerste Hulp in het ziekenhuis. Hij heeft budget gekregen om de eerste hulp te verbeteren, maar weet niet hoe hij dit nu het beste kan aanpakken. Hij hoort dat patiënten vaak klagen over de lange wachttijden, maar de oorzaak voor deze lange wachttijden is onduidelijk. </br> </br> </br> </br> </br>
+Diederick is het hoofd van de Eerste Hulp in het ziekenhuis. Hij heeft budget gekregen om de eerste hulp te verbeteren, maar weet niet hoe hij dit nu het beste kan aanpakken. Hij hoort dat patiënten vaak klagen over de lange wachttijden, maar de oorzaak voor deze lange wachttijden is onduidelijk. </br> </br> </br> </br> </br>
 
 ## Analyse met behulp van Process Mining
 
-![](images/Processing-pana.png){height="250" style="float:left;"} Hoe kunnen we Paul helpen en advies geven over de meest effectieve investeringen om de eerste hulp in zijn ziekenhuis te verbeteren door wachttijden te verminderen? Dit vormt een perfect scenario voor de toepassing van process mining. </br>
+![](images/Processing-pana.png){height="250" style="float:left;"} Hoe kunnen we Diederick helpen en advies geven over de meest effectieve investeringen om de eerste hulp in zijn ziekenhuis te verbeteren door wachttijden te verminderen? Dit vormt een perfect scenario voor de toepassing van process mining. </br>
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE, show = FALSE }
 library(bupaR)
@@ -58,9 +60,9 @@ Om process mining succesvol toe te passen, is het essentieel dat alle activiteit
 -   de unieke code van de patiënten
 -   de unieke code van de verantwoordelijke arts of afdeling (optioneel)
 
-### Analyse
+### Analyse frequentie processmap
 
-Paul wil graag weten welke stappen worden ondernomen wanneer een patiënt op de eerste hulp belandt. Is er sprake van standaardroutes die patiënten volgen, zijn er onverwachte uitzonderingen? Wat is de meest gangbare route? Om hier inzicht in te krijgen, maken we gebruik van een process map. Deze visualiseert niet alleen het aantal patiënten dat een specifieke handeling ondergaat, maar geeft tevens de opeenvolging van handelingen weer. Zo verkrijgen we helderheid over de gebruikelijke gang van zaken en eventuele variaties in het proces.
+Diederick wil graag weten welke stappen worden ondernomen wanneer een patiënt op de eerste hulp belandt. Is er sprake van standaardroutes die patiënten volgen, zijn er onverwachte uitzonderingen? Wat is de meest gangbare route? Om hier inzicht in te krijgen, maken we gebruik van een process map. Deze visualiseert niet alleen het aantal patiënten dat een specifieke handeling ondergaat, maar geeft tevens de opeenvolging van handelingen weer. Zo verkrijgen we helderheid over de gebruikelijke gang van zaken en eventuele variaties in het proces.
 
 ```{r, echo = FALSE}
 patients %>% process_map(type_nodes = frequency("relative_case"), type_edges = frequency("relative"))
@@ -68,9 +70,10 @@ patients %>% process_map(type_nodes = frequency("relative_case"), type_edges = f
 
 **Figuur 1. Process map met het percentage patiënten dat een bepaalde handeling ondergaat**
 
-Uit deze process map valt direct veel informatie te halen. We zien dat iedere patiënt geregistreerd wordt en een beoordeling ondergaat. Na de beoordeling blijkt dat een patiënt ofwel een bloedtest en behandeling A krijgt, of behandeling B. Opvallend voor Paul is dat ongeveer evenveel mensen behandeling A als behandeling B krijgen, in tegenstelling tot wat hij had verwacht. Behandeling B zou alleen ingezet moeten worden wanneer strict noodzakelijk, aangezien Behandeling B aanzienlijk duurder is voor het ziekenhuis en ook meer tijd kost. Nadat Paul dit bespreekt met zijn collega's, ontdekt hij dat afdeling van Behandeling A onderbezet is, terwijl het op de afdeling van Behandeling B doorgaans rustiger is. Door de patiënten te verdelen over de afdelingen van Behandeling A en B, probeerden zijn collega's de wachttijd al te beperken.
+Uit deze process map valt direct veel informatie te halen. We zien dat iedere patiënt geregistreerd wordt en een beoordeling ondergaat. Na de beoordeling blijkt dat een patiënt ofwel een bloedtest en behandeling A krijgt, of behandeling B. Opvallend voor Diederick is dat ongeveer evenveel mensen behandeling A als behandeling B krijgen, in tegenstelling tot wat hij had verwacht. Behandeling B zou alleen ingezet moeten worden wanneer strict noodzakelijk, aangezien Behandeling B aanzienlijk duurder is voor het ziekenhuis en ook meer tijd kost. Nadat Diederick dit bespreekt met zijn collega's, ontdekt hij dat afdeling van Behandeling A onderbezet is, terwijl het op de afdeling van Behandeling B doorgaans rustiger is. Door de patiënten te verdelen over de afdelingen van Behandeling A en B, probeerden zijn collega's de wachttijd al te beperken.
 
-Nu Paul een beeld heeft van de volgorde en frequentie van de activiteiten op de eerste hulp, is hij benieuwd naar welke activiteiten de meeste tijd in beslag nemen en op welke activiteiten patiënten lang moeten wachten. Om deze informatie te verkrijgen, maken we gebruik van een process map waarin de gemiddelde duur van de activiteiten wordt weergegeven.
+### Analyse performance process map
+Nu Diederick een beeld heeft van de volgorde en frequentie van de activiteiten op de eerste hulp, is hij benieuwd naar welke activiteiten de meeste tijd in beslag nemen en op welke activiteiten patiënten lang moeten wachten. Om deze informatie te verkrijgen, maken we gebruik van een process map waarin de gemiddelde duur van de activiteiten wordt weergegeven.
 
 ```{r, echo = FALSE}
 # Best wel overzihctelijk, wat duurt er dan zo lang. waar zitten de bottle necks, 
@@ -79,8 +82,9 @@ patients %>% process_map(type = performance(FUN = mean,"hours"), sec = frequency
 
 **Figuur 2. Process map met de gemiddelde duur van de handelingen**
 
-![](images/Doctor-bro.svg){height="300" style="float:right;"} Paul merkt direct op dat triage de meeste tijd in beslag neemt, wat in lijn is met zijn verwachtingen. Het is immers tijdsintensief een patiënt te spreken en te beoordelen wat de beste behandeling zal zijn. Wat echter opvallend is, is dat Behandeling A gemiddeld nog net iets langer duurt dan Behandeling B, terwijl normaal gesproken Behandeling B langer duurt. Zijn collega's die verantwoordelijk zijn voor Behandeling A geven aan dat de medische apparatuur verouderd is, wat resulteert in aanzienlijke vertraging.
+![](images/Doctor-bro.svg){height="300" style="float:right;"} Diederick merkt direct op dat triage de meeste tijd in beslag neemt, wat in lijn is met zijn verwachtingen. Het is immers tijdsintensief een patiënt te spreken en te beoordelen wat de beste behandeling zal zijn. Wat echter opvallend is, is dat Behandeling A gemiddeld nog net iets langer duurt dan Behandeling B, terwijl normaal gesproken Behandeling B langer duurt. Zijn collega's die verantwoordelijk zijn voor Behandeling A geven aan dat de medische apparatuur verouderd is, wat resulteert in aanzienlijke vertraging.
 
+### Analyse trace explorer
 Naast de process map zijn er nog andere methoden om inzicht te krijgen in de processen, zoals met een zogenaamde trace explorer:
 
 ```{r, echo = FALSE}
@@ -89,9 +93,9 @@ patients %>% trace_explorer(coverage = 1)
 
 **Figuur 3. Trace Explorer**
 
-Elk blokje in de visualisatie vertegenwoordigt een specifieke activiteit, waarbij de volgorde van de blokjes de opeenvolging van de activiteiten aangeeft. Een specifieke reeks activiteiten wordt aangeduid als een 'trace'. Aan de rechterkant wordt aangegeven hoe vaak deze trace voorkomt. Opvallend is dat de activiteiten niet altijd worden afgesloten met een check-out (het lichtgroene blokje), wat tegen de verwachtingen van Paul ingaat.
+Elk blokje in de visualisatie vertegenwoordigt een specifieke activiteit, waarbij de volgorde van de blokjes de opeenvolging van de activiteiten aangeeft. Een specifieke reeks activiteiten wordt aangeduid als een 'trace'. Aan de rechterkant wordt aangegeven hoe vaak deze trace voorkomt. Opvallend is dat de activiteiten niet altijd worden afgesloten met een check-out (het lichtgroene blokje), wat tegen de verwachtingen van Diederick ingaat.
 
-Na onderzoek ontdekt Paul dat patiënten die geen check-out hadden, haast hadden en niet wilden wachten op de vervolgstappen omdat ze de wachttijd te lang vonden. Dit vormt voor Paul nog meer motivatie om de wachttijden in het ziekenhuis te verbeteren.
+Na onderzoek ontdekt Diederick dat patiënten die geen check-out hadden, haast hadden en niet wilden wachten op de vervolgstappen omdat ze de wachttijd te lang vonden. Dit vormt voor Diederick nog meer motivatie om de wachttijden in het ziekenhuis te verbeteren.
 
 ### Conformance checking
 
@@ -103,7 +107,7 @@ In een process zitten vaak bepaalde regels die gevolgd moeten worden, en waar ma
 
 ## Conclusie
 
-![](images/Self%20confidence-bro.svg){height="250" style="float:left;"} Na aanleiding van de resultaten verkregen door middel van Processmining, heeft Paul besloten te investeren in nieuwe medische apparatuur en te onderzoeken welke collega's op de afdeling van Behandeling B ook taken op de afdeling van Behandeling A kunnen overnemen. Het resultaat is opmerkelijk: de wachttijd voor patiënten neemt aanzienlijk af, en bovendien krijgen de patiënten nu de behandeling die daadwerkelijk nodig is (namelijk Behandeling A in plaats van Behandeling B). Dit leidt tot tevredenheid bij zowel de patiënten als de werknemers, en natuurlijk Paul zelf.
+![](images/Self%20confidence-bro.svg){height="250" style="float:left;"} Na aanleiding van de resultaten verkregen door middel van Processmining, heeft Diederick besloten te investeren in nieuwe medische apparatuur en te onderzoeken welke collega's op de afdeling van Behandeling B ook taken op de afdeling van Behandeling A kunnen overnemen. Het resultaat is opmerkelijk: de wachttijd voor patiënten neemt aanzienlijk af, en bovendien krijgen de patiënten nu de behandeling die daadwerkelijk nodig is (namelijk Behandeling A in plaats van Behandeling B). Dit leidt tot tevredenheid bij zowel de patiënten als de werknemers, en natuurlijk Diederick zelf.
 
 </br></br>
 

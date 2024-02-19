@@ -131,19 +131,20 @@ Bovenstaande analyses geven interessante inzichten, maar er zijn meer mogelijkhe
 
 # Er kunnen verschillende gegevens in de map worden getoond:
 # 
-#   absolute: aantal executies van activity
+#   absolute: aantal keer dat de activiteit zich voordoet
 # 
-#   absolute-case: aantal cases
+#   absolute-case: aantal cases (in dit geval patiënten) die de activiteit ondergaan
 # 
-#   relative: proportion of all activity instances with this type
+#   relative: proportie aantal keer dat deeze activiteit zich voortdoet op vergeleken met het totaal
 # 
-#   relative-case: proportion of all cases that did this activity
-# 
-#   relative-antecedent: percentage dat uit deze "source komt", komt in deze flow
-# 
-#   relative-consequent: percentage dat in "target" terecht komt komt uit deze flow
+#   relative-case: proportie van alle cases die deze activiteit ondergaan
 
-patients %>% process_map(frequency("absolute-case"))
+# daarnaast kun je ook definiëren wat de pijlen moeten weergeven en combinaties 
+#van weergave maken. Hieronder laten we in de nodes het aantal cases en het 
+#relatieve aantal zien, en op pijlen (flows) de het percentage dat naar elke 
+#volgende node gaat.
+
+patients %>% process_map(type_nodes = frequency("relative-case"), sec_nodes = frequency("absolute-case"), type_edges = frequency("relative"))
 ```
 
 Er zijn een aantal interessante inzichten uit deze visualisatie te halen:
